@@ -48,12 +48,12 @@ var Graph = function Graph(_ref) {
     id = _ref$id === void 0 ? 'GraphTree_container' : _ref$id,
     restProps = _objectWithoutProperties(_ref, ["data", "nodeDistance", "NodeComponent", "LineComponent", "pullIn", "zoomDepth", "enableDrag", "hoverOpacity", "id"]);
 
+  var svg = (0, _d3Selection.select)("#".concat(id));
   (0, _react.useEffect)(function () {
     if (!data) {
       return null;
     }
 
-    var svg = (0, _d3Selection.select)("#".concat(id));
     var link = svg.selectAll("._graphLine").data(data.links);
     var node = svg.selectAll("._graphNode").data(data.nodes);
     var simulation = (0, _d3Force.forceSimulation)(data.nodes).force("link", (0, _d3Force.forceLink)() // This force provides links between nodes
