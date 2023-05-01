@@ -60,7 +60,7 @@ var Graph = function Graph(_ref) {
     .id(function (d) {
       return d.id;
     }) // This provide the id of a node
-    .distance(0).strength(1) // this makes the movable
+    .distance(nodeDistance).strength(1) // this makes the movable
     .links(data.links) // and this the list of links
     ).force("charge", (0, _d3Force.forceManyBody)().strength(-1 * nodeDistance)) // This adds repulsion between nodes. Play with the -400 for the repulsion strength
     .on("tick", function () {
