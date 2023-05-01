@@ -37,36 +37,36 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
 // dont't forget to `rm -rf ./node_modules/react-graph-network`, maybe clear your package.json and `npm i`
 var Graph = function Graph(_ref) {
   var data = _ref.data,
-    nodeDistance = _ref.nodeDistance,
-    NodeComponent = _ref.NodeComponent,
-    LineComponent = _ref.LineComponent,
-    pullIn = _ref.pullIn,
-    zoomDepth = _ref.zoomDepth,
-    enableDrag = _ref.enableDrag,
-    hoverOpacity = _ref.hoverOpacity,
-    _ref$id = _ref.id,
-    id = _ref$id === void 0 ? 'GraphTree_container' : _ref$id,
-    restProps = _objectWithoutProperties(_ref, ["data", "nodeDistance", "NodeComponent", "LineComponent", "pullIn", "zoomDepth", "enableDrag", "hoverOpacity", "id"]);
+      nodeDistance = _ref.nodeDistance,
+      NodeComponent = _ref.NodeComponent,
+      LineComponent = _ref.LineComponent,
+      pullIn = _ref.pullIn,
+      zoomDepth = _ref.zoomDepth,
+      enableDrag = _ref.enableDrag,
+      hoverOpacity = _ref.hoverOpacity,
+      _ref$id = _ref.id,
+      id = _ref$id === void 0 ? 'GraphTree_container' : _ref$id,
+      restProps = _objectWithoutProperties(_ref, ["data", "nodeDistance", "NodeComponent", "LineComponent", "pullIn", "zoomDepth", "enableDrag", "hoverOpacity", "id"]);
 
-  var svg = (0, _d3Selection.select)("#".concat(id));
   (0, _react.useEffect)(function () {
     if (!data) {
       return null;
     }
 
+    var svg = (0, _d3Selection.select)("#".concat(id));
     var link = svg.selectAll("._graphLine").data(data.links);
     var node = svg.selectAll("._graphNode").data(data.nodes);
     var simulation = (0, _d3Force.forceSimulation)(data.nodes).force("link", (0, _d3Force.forceLink)() // This force provides links between nodes
-      .id(function (d) {
-        return d.id;
-      }) // This provide the id of a node
-      .distance(nodeDistance).strength(1) // this makes the movable
-      .links(data.links) // and this the list of links
+    .id(function (d) {
+      return d.id;
+    }) // This provide the id of a node
+    .distance(nodeDistance).strength(1) // this makes the movable
+    .links(data.links) // and this the list of links
     ).force("charge", (0, _d3Force.forceManyBody)().strength(-50)) // This adds repulsion between nodes. Play with the -400 for the repulsion strength
-      .on("tick", function () {
-        return (0, _events.tick)(node, link);
-      })
-      .tick([400]); // this removes animation on render
+    .on("tick", function () {
+      return (0, _events.tick)(node, link);
+    })
+    .tick([400]); // this removes animation on render
     // https://github.com/d3/d3-force#simulation_tick
     // add interactions
 
@@ -78,13 +78,13 @@ var Graph = function Graph(_ref) {
   if (!data) {
     return null;
   }
-
+  // .force("center", (0, _d3Force.forceCenter)(svg._groups[0][0].parentElement.clientWidth / 2, svg._groups[0][0].parentElement.clientHeight / 2)) // This force attracts nodes to the center of the svg area
   return _react["default"].createElement("svg", _extends({
     id: id,
     width: "100%",
     height: "100%",
     border: "1px solid black",
-    viewBox: `-${svg._groups[0][0].parentElement.clientWidth / 2} -${svg._groups[0][0].parentElement.clientHeight / 2} ${svg._groups[0][0].parentElement.clientWidth} ${svg._groups[0][0].parentElement.clientHeight}`
+    viewBox: "-400 -400 800 800"
   }, restProps), _react["default"].createElement("g", {
     className: "_graphZoom"
   }, data.links.map(function (link, i) {
