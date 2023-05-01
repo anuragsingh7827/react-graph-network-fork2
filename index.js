@@ -60,7 +60,7 @@ var Graph = function Graph(_ref) {
     .id(function (d) {
       return d.id;
     }) // This provide the id of a node
-    .distance(nodeDistance).strength(1) // this makes the tree movable
+    .distance(nodeDistance).strength(1) // this makes the movable
     .links(data.links) // and this the list of links
     ).force("charge", (0, _d3Force.forceManyBody)().strength(-50)) // This adds repulsion between nodes. Play with the -400 for the repulsion strength
     .on("tick", function () {
@@ -82,7 +82,9 @@ var Graph = function Graph(_ref) {
   return _react["default"].createElement("svg", _extends({
     id: id,
     width: "100%",
-    height: "100%"
+    height: "100%",
+    x: "400",
+    y: "300"
   }, restProps), _react["default"].createElement("g", {
     className: "_graphZoom"
   }, data.links.map(function (link, i) {
