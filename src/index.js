@@ -68,7 +68,6 @@ const Graph = ({
             id={id}
             width="100%"
             height="100%"
-            viewBox={`-${width / 2} -${height / 2} ${width} ${height}`}
             {...restProps}
         >
              <g className="_graphZoom">
