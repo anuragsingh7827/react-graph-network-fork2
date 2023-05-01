@@ -65,7 +65,9 @@ var Graph = function Graph(_ref) {
     .force("center", (0, _d3Force.forceCenter)(svg._groups[0][0].parentElement.clientWidth / 2, svg._groups[0][0].parentElement.clientHeight / 2)) // This force attracts nodes to the center of the svg area
     .on("tick", function () {
       return (0, _events.tick)(node, link);
-    }); // https://github.com/d3/d3-force#simulation_tick
+    })
+    .tick([400]); // this removes animation on render
+    // https://github.com/d3/d3-force#simulation_tick
     // add interactions
 
     (0, _interactions.addZoom)(svg, zoomDepth);
