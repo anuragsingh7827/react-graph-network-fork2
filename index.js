@@ -63,7 +63,6 @@ var Graph = function Graph(_ref) {
     .distance(nodeDistance).strength(1) // this makes the movable
     .links(data.links) // and this the list of links
     ).force("charge", (0, _d3Force.forceManyBody)().strength(-50)) // This adds repulsion between nodes. Play with the -400 for the repulsion strength
-    .force("center", (0, _d3Force.forceCenter)(svg._groups[0][0].parentElement.clientWidth / 2, svg._groups[0][0].parentElement.clientHeight / 2))
     .on("tick", function () {
       return (0, _events.tick)(node, link);
     })
@@ -85,7 +84,7 @@ var Graph = function Graph(_ref) {
     width: "100%",
     height: "100%",
     border: "1px solid black",
-    // viewBox: "-400 -400 800 800"
+    viewBox: "-400 -400 800 800"
   }, restProps), _react["default"].createElement("g", {
     className: "_graphZoom"
   }, data.links.map(function (link, i) {
