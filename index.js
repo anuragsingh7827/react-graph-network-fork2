@@ -63,7 +63,7 @@ var Graph = function Graph(_ref) {
     .distance(nodeDistance)
     .strength(1) // this makes the nodes movable
     .links(data.links) // and this the list of links
-    ).force("charge", (0, _d3Force.forceManyBody)().distanceMax(400).strength(-50)) // This adds repulsion between nodes. Play with the -400 for the repulsion strength
+    ).force("charge", (0, _d3Force.forceManyBody)().distanceMax(700).strength(-50)) // This adds repulsion between nodes. Play with the -400 for the repulsion strength
     .force("x", (0, _d3Force.forceX()))
     .force("y", (0, _d3Force.forceY()))
     .on("tick", function () {
