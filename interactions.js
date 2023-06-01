@@ -65,7 +65,7 @@ var addZoom = function addZoom(svg, zoomDepth) {
         .duration(500)
         .call(
           zoom.transform,
-          d3.zoomIdentity.translate(
+          _d3Selection.zoomIdentity.translate(
             (svgWidth - svgWidth * zoom.scale()) / 2,
             (svgHeight - svgHeight * zoom.scale()) / 2,
           ),
