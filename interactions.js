@@ -47,28 +47,28 @@ var addZoom = function addZoom(svg, zoomDepth) {
       zoom.scaleBy(svg.transition().duration(500), 1.2);
       var currentZoom = zoom.scaleExtent()[1];
       localStorage.setItem("currentZoom", currentZoom);
-      repositionGraph();
+      // repositionGraph();
     };
 
     var zoomOut = function() {
       zoom.scaleBy(svg.transition().duration(500), 0.8);
       var currentZoom = zoom.scaleExtent()[1];
       localStorage.setItem("currentZoom", currentZoom);
-      repositionGraph();
+      // repositionGraph();
     };
 
-    var repositionGraph = function() {
-      var transform = _d3Selection.zoomTransform(svg.node());
-      var currentZoom = transform.k;
-      var currentTranslate = [transform.x, transform.y];
+    // var repositionGraph = function() {
+    //   var transform = _d3Selection.zoomTransform(svg.node());
+    //   var currentZoom = transform.k;
+    //   var currentTranslate = [transform.x, transform.y];
 
-      var newTranslate = [
-        Math.min(0, Math.max(svgWidth - svgWidth * currentZoom, currentTranslate[0])),
-        Math.min(0, Math.max(svgHeight - svgHeight * currentZoom, currentTranslate[1]))
-      ];
+    //   var newTranslate = [
+    //     Math.min(0, Math.max(svgWidth - svgWidth * currentZoom, currentTranslate[0])),
+    //     Math.min(0, Math.max(svgHeight - svgHeight * currentZoom, currentTranslate[1]))
+    //   ];
 
-      svg.transition().duration(500).call(zoom.transform, _d3Zoom.zoomIdentity.translate(newTranslate[0], newTranslate[1]).scale(currentZoom));
-    };
+    //   svg.transition().duration(500).call(zoom.transform, _d3Zoom.zoomIdentity.translate(newTranslate[0], newTranslate[1]).scale(currentZoom));
+    // };
 
     // Bind zoom in and zoom out functions to UI buttons
     _d3Selection.select("#zoom-in-button").on("click", zoomIn);
