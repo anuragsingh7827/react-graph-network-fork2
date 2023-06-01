@@ -34,9 +34,8 @@ var addZoom = function addZoom(svg, zoomDepth) {
         .on("zoom", zoomed),
     );
 
-    svg.on("wheel.zoom", null);
-    svg.on("mousewheel.zoom", null);
-    svg.on("MozMousePixelScroll.zoom", null);
+    // svg.on("wheel.zoom", null);
+    // svg.on("mousewheel.zoom", null);
   }
 
   return svg;
