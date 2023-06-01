@@ -12,11 +12,10 @@ var _d3Selection = require("d3-selection");
 var _d3Zoom = require("d3-zoom");
 
 var _events = require("./events");
-
 var addZoom = function addZoom(svg, zoomDepth) {
   if (zoomDepth) {
-    var svgWidth = svg.node().getBoundingClientRect().width;
-    var svgHeight = svg.node().getBoundingClientRect().height;
+    var svgHeight = svg._groups[0][0].clientHeight;
+    var svgWidth = svg._groups[0][0].clientWidth;
 
     var zoomed = function zoomed() {
       svg
@@ -24,11 +23,6 @@ var addZoom = function addZoom(svg, zoomDepth) {
         .attr("transform", _d3Selection.event.transform);
       var currentZoom = _d3Selection.event.transform.k;
       localStorage.setItem("currentZoom", currentZoom);
-      var currentTranslate = _d3Selection.event.transform;
-      localStorage.setItem(
-        "currentTranslate",
-        JSON.stringify(currentTranslate),
-      );
     };
 
     var zoom = (0, _d3Zoom.zoom)()
@@ -55,41 +49,12 @@ var addZoom = function addZoom(svg, zoomDepth) {
       zoom.scaleBy(svg.transition().duration(500), 1.2);
       var currentZoom = zoom.scaleExtent()[1];
       localStorage.setItem("currentZoom", currentZoom);
-      repositionGraph();
     };
 
     var zoomOut = function () {
       zoom.scaleBy(svg.transition().duration(500), 0.8);
       var currentZoom = zoom.scaleExtent()[1];
       localStorage.setItem("currentZoom", currentZoom);
-      repositionGraph();
-    };
-
-    var repositionGraph = function () {
-      var transform = _d3Selection.zoomTransform(svg.node());
-      var currentZoom = transform.k;
-      var currentTranslate = [transform.x, transform.y];
-
-      var newTranslate = [
-        Math.min(
-          0,
-          Math.max(svgWidth - svgWidth * currentZoom, currentTranslate[0]),
-        ),
-        Math.min(
-          0,
-          Math.max(svgHeight - svgHeight * currentZoom, currentTranslate[1]),
-        ),
-      ];
-
-      svg
-        .transition()
-        .duration(500)
-        .call(
-          zoom.transform,
-          _d3Zoom.zoomIdentity
-            .translate(newTranslate[0], newTranslate[1])
-            .scale(currentZoom),
-        );
     };
 
     // Bind zoom in and zoom out functions to UI buttons
@@ -102,41 +67,12 @@ var addZoom = function addZoom(svg, zoomDepth) {
       zoom.scaleTo(svg, initialZoom);
     }
 
-    // Retrieve and set the initial translation from local storage
-    var initialTranslate = localStorage.getItem("currentTranslate");
-    if (initialTranslate) {
-      initialTranslate = JSON.parse(initialTranslate);
-      svg.call(
-        zoom.transform,
-        _d3Zoom.zoomIdentity.translate(
-          initialTranslate[0],
-          initialTranslate[1],
-        ),
-      );
-    } else {
-      // Center the graph on initial render
-      var centerX = svgWidth / 2;
-      var centerY = svgHeight / 2;
-      var initialZoom = localStorage.getItem("currentZoom");
-
-      if (initialZoom) {
-        zoom.scaleTo(svg, initialZoom);
-        var transform = _d3Zoom.zoomIdentity
-          .translate(centerX, centerY)
-          .scale(initialZoom);
-        svg.call(zoom.transform, transform);
-      } else {
-        svg.call(
-          zoom.transform,
-          _d3Zoom.zoomIdentity.translate(centerX, centerY),
-        );
-      }
-
-      svg.call(zoom).call(drag);
-    }
+    svg.call(zoom).call(drag);
   }
+
   return svg;
 };
+
 exports.addZoom = addZoom;
 
 var addHoverOpacity = function addHoverOpacity(node, link, hoverOpacity) {
