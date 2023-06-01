@@ -13,13 +13,10 @@ export const addZoom = (svg, zoomDepth) => {
             svg.selectAll("._graphZoom").attr("transform", event.transform);
         };
 
-        var newZoom = zoom()
+        svg.call(zoom()
             .extent([[0, 0], [svgWidth, svgHeight]])
-            .on("zoom", zoomed);
-
-        newZoom.scaleTo(svg, zoomDepth);
-
-        svg.call(newZoom);
+            .scaleExtent([1, zoomDepth])
+            .on("zoom", zoomed));
     }
     return svg;
 };

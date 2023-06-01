@@ -24,19 +24,23 @@ var addZoom = function addZoom(svg, zoomDepth) {
         .attr("transform", _d3Selection.event.transform);
     };
 
-    // svg.call((0, _d3Zoom.zoom)().extent([[0, 0], [svgWidth, svgHeight]]).scaleExtent([1, zoomDepth]).on("zoom", zoomed));
+    svg.call(
+      (0, _d3Zoom.zoom)()
+        .extent([
+          [0, 0],
+          [svgWidth, svgHeight],
+        ])
+        .scaleExtent([1, zoomDepth])
+        .on("zoom", zoomed),
+    );
 
-    var zoom = (0, _d3Zoom.zoom)()
-      .extent([
-        [0, 0],
-        [svgWidth, svgHeight],
-      ])
-      .on("zoom", zoomed);
-
-    // Apply the scaleTo method to zoom the SVG to a value of zoomDepth
-    zoom.scaleTo(svg, zoomDepth);
-
-    svg.call(zoom);
+    svg.on("mousedown.zoom", null);
+    svg.on("mousemove.zoom", null);
+    svg.on("dblclick.zoom", null);
+    svg.on("touchstart.zoom", null);
+    svg.on("wheel.zoom", null);
+    svg.on("mousewheel.zoom", null);
+    svg.on("MozMousePixelScroll.zoom", null);
   }
 
   return svg;
