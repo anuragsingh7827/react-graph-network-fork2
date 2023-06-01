@@ -24,35 +24,39 @@ var addZoom = function addZoom(svg, zoomDepth) {
         .attr("transform", _d3Selection.event.transform);
     };
 
-    svg.call(
-      (0, _d3Zoom.zoom)()
-        .extent([
-          [0, 0],
-          [svgWidth, svgHeight],
-        ])
-        .scaleExtent([1, zoomDepth])
-        .on("zoom", zoomed),
-    );
+    var zoom = (0, _d3Zoom.zoom)()
+      .extent([
+        [0, 0],
+        [svgWidth, svgHeight],
+      ])
+      .scaleExtent([1, zoomDepth])
+      .on("zoom", zoomed);
 
-    // var zoom = (0, _d3Zoom.zoom)()
-    //   .extent([
-    //     [0, 0],
-    //     [svgWidth, svgHeight],
-    //   ])
-    //   .scaleExtent([1, zoomDepth])
-    //   .on("zoom", zoomed);
+    var drag = (0, _d3Drag.drag)()
+      .on("start", function () {
+        if (_d3Selection.event.sourceEvent.type !== "brush") {
+          _d3Selection.event.sourceEvent.stopPropagation();
+        }
+      })
+      .on("drag", function () {
+        if (_d3Selection.event.sourceEvent.type !== "brush") {
+          svg.attr("transform", _d3Selection.event.transform);
+        }
+      });
 
-    // var zoomIn = function () {
-    //   zoom.scaleBy(svg.transition().duration(500), 1.2);
-    // };
+    var zoomIn = function () {
+      zoom.scaleBy(svg.transition().duration(500), 1.2);
+    };
 
-    // var zoomOut = function () {
-    //   zoom.scaleBy(svg.transition().duration(500), 0.8);
-    // };
+    var zoomOut = function () {
+      zoom.scaleBy(svg.transition().duration(500), 0.8);
+    };
 
-    // // Bind zoom in and zoom out functions to UI buttons
-    // _d3Selection.select("#zoom-in-button").on("click", zoomIn);
-    // _d3Selection.select("#zoom-out-button").on("click", zoomOut);
+    // Bind zoom in and zoom out functions to UI buttons
+    _d3Selection.select("#zoom-in-button").on("click", zoomIn);
+    _d3Selection.select("#zoom-out-button").on("click", zoomOut);
+
+    svg.call(zoom).call(drag);
   }
 
   return svg;
