@@ -22,6 +22,8 @@ var addZoom = function addZoom(svg, zoomDepth) {
       svg.selectAll("._graphZoom").attr("transform", _d3Selection.event.transform);
       var currentZoom = _d3Selection.event.transform.k;
       localStorage.setItem("currentZoom", currentZoom);
+      var currentTranslate = _d3Selection.event.transform;
+      localStorage.setItem("currentTranslate", JSON.stringify(currentTranslate));
     };
 
     var zoom = (0, _d3Zoom.zoom)()
@@ -76,6 +78,13 @@ var addZoom = function addZoom(svg, zoomDepth) {
     var initialZoom = localStorage.getItem("currentZoom");
     if (initialZoom) {
       zoom.scaleTo(svg, initialZoom);
+    }
+
+    // Retrieve and set the initial translation from local storage
+    var initialTranslate = localStorage.getItem("currentTranslate");
+    if (initialTranslate) {
+      initialTranslate = JSON.parse(initialTranslate);
+      svg.call(zoom.transform, _d3Zoom.zoomIdentity.translate(initialTranslate[0], initialTranslate[1]));
     }
 
     svg.call(zoom).call(drag);
