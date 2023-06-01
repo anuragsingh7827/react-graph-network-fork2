@@ -31,7 +31,6 @@ var addZoom = function addZoom(svg, zoomDepth) {
         [0, 0],
         [svgWidth, svgHeight],
       ])
-      .scaleExtent([1, zoomDepth])
       .on("zoom", zoomed);
 
     // Apply the scaleTo method to zoom the SVG to a value of 5
