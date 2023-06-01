@@ -24,18 +24,27 @@ var addZoom = function addZoom(svg, zoomDepth) {
         .attr("transform", _d3Selection.event.transform);
     };
 
-    svg.call(
-      (0, _d3Zoom.zoom)()
-        .extent([
-          [0, 0],
-          [svgWidth, svgHeight],
-        ])
-        .scaleExtent([1, zoomDepth])
-        .on("zoom", zoomed),
-    );
+    var zoom = (0, _d3Zoom.zoom)()
+      .extent([
+        [0, 0],
+        [svgWidth, svgHeight],
+      ])
+      .scaleExtent([1, zoomDepth])
+      .on("zoom", zoomed);
+
+    var zoomIn = function () {
+      zoom.scaleBy(svg.transition().duration(500), 1.2);
+    };
+
+    var zoomOut = function () {
+      zoom.scaleBy(svg.transition().duration(500), 0.8);
+    };
+
+    // Bind zoom in and zoom out functions to UI buttons
+    d3.select("#zoom-in-button").on("click", zoomIn);
+    d3.select("#zoom-out-button").on("click", zoomOut);
 
     // svg.on("wheel.zoom", null);
-    svg.on("mousewheel.zoom", null);
   }
 
   return svg;
