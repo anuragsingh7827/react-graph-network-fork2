@@ -22,7 +22,7 @@ var addZoom = function addZoom(svg, zoomDepth) {
       svg.selectAll("._graphZoom").attr("transform", _d3Selection.event.transform);
     };
 
-    svg.call((0, _d3Zoom.zoom)().extent([[0, 0], [svgWidth, svgHeight]]).scaleExtent([1, zoomDepth]).scaleTo(zoomDepth).on("zoom", zoomed));
+    svg.call((0, _d3Zoom.zoom)().extent([[0, 0], [svgWidth, svgHeight]]).scaleTo(zoomDepth).on("zoom", zoomed));
   }
 
   return svg;
