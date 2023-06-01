@@ -59,8 +59,8 @@ var addZoom = function addZoom(svg, zoomDepth) {
     };
 
     // Bind zoom in and zoom out functions to UI buttons
-    d3.select("#zoom-in-button").on("click", zoomIn);
-    d3.select("#zoom-out-button").on("click", zoomOut);
+    _d3Selection.select("#zoom-in-button").on("click", zoomIn);
+    _d3Selection.select("#zoom-out-button").on("click", zoomOut);
 
     // Retrieve and set the initial zoom level from local storage
     var initialZoom = localStorage.getItem("currentZoom");
