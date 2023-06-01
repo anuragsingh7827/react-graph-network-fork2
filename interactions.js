@@ -15,8 +15,8 @@ var _events = require("./events");
 
 var addZoom = function addZoom(svg, zoomDepth) {
   if (zoomDepth) {
-    var svgHeight = svg._groups[0][0].clientHeight;
-    var svgWidth = svg._groups[0][0].clientWidth;
+    var svgWidth = svg.node().getBoundingClientRect().width;
+    var svgHeight = svg.node().getBoundingClientRect().height;
 
     var zoomed = function zoomed() {
       svg
@@ -93,8 +93,8 @@ var addZoom = function addZoom(svg, zoomDepth) {
     };
 
     // Bind zoom in and zoom out functions to UI buttons
-    _d3Selection.select("#zoom-in-button").on("click", zoomIn);
-    _d3Selection.select("#zoom-out-button").on("click", zoomOut);
+    d3.select("#zoom-in-button").on("click", zoomIn);
+    d3.select("#zoom-out-button").on("click", zoomOut);
 
     // Retrieve and set the initial zoom level from local storage
     var initialZoom = localStorage.getItem("currentZoom");
@@ -117,18 +117,26 @@ var addZoom = function addZoom(svg, zoomDepth) {
       // Center the graph on initial render
       var centerX = svgWidth / 2;
       var centerY = svgHeight / 2;
-      svg.call(
-        zoom.transform,
-        _d3Zoom.zoomIdentity.translate(centerX, centerY),
-      );
+      var initialZoom = localStorage.getItem("currentZoom");
+
+      if (initialZoom) {
+        zoom.scaleTo(svg, initialZoom);
+        var transform = _d3Zoom.zoomIdentity
+          .translate(centerX, centerY)
+          .scale(initialZoom);
+        svg.call(zoom.transform, transform);
+      } else {
+        svg.call(
+          zoom.transform,
+          _d3Zoom.zoomIdentity.translate(centerX, centerY),
+        );
+      }
+
+      svg.call(zoom).call(drag);
     }
-
-    svg.call(zoom).call(drag);
   }
-
   return svg;
 };
-
 exports.addZoom = addZoom;
 
 var addHoverOpacity = function addHoverOpacity(node, link, hoverOpacity) {
