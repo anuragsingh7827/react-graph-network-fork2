@@ -41,10 +41,9 @@ var addZoom = function addZoom(svg, zoomDepth) {
     };
 
     // Bind zoom in and zoom out functions to UI buttons
-    _d3Selection.select("#zoom-in-button").on("click", zoomIn);
-    _d3Selection.select("#zoom-out-button").on("click", zoomOut);
+    // _d3Selection.select("#zoom-in-button").on("click", zoomIn);
+    // _d3Selection.select("#zoom-out-button").on("click", zoomOut);
 
-    // svg.on("wheel.zoom", null);
   }
 
   return svg;
