@@ -49,12 +49,27 @@ var addZoom = function addZoom(svg, zoomDepth) {
       zoom.scaleBy(svg.transition().duration(500), 1.2);
       var currentZoom = zoom.scaleExtent()[1];
       localStorage.setItem("currentZoom", currentZoom);
+      resetCenter();
     };
 
     var zoomOut = function () {
       zoom.scaleBy(svg.transition().duration(500), 0.8);
       var currentZoom = zoom.scaleExtent()[1];
       localStorage.setItem("currentZoom", currentZoom);
+      resetCenter();
+    };
+
+    var resetCenter = function () {
+      svg
+        .transition()
+        .duration(500)
+        .call(
+          zoom.transform,
+          d3.zoomIdentity.translate(
+            (svgWidth - svgWidth * zoom.scale()) / 2,
+            (svgHeight - svgHeight * zoom.scale()) / 2,
+          ),
+        );
     };
 
     // Bind zoom in and zoom out functions to UI buttons
@@ -65,6 +80,7 @@ var addZoom = function addZoom(svg, zoomDepth) {
     var initialZoom = localStorage.getItem("currentZoom");
     if (initialZoom) {
       zoom.scaleTo(svg, initialZoom);
+      resetCenter();
     }
 
     svg.call(zoom).call(drag);
@@ -72,6 +88,67 @@ var addZoom = function addZoom(svg, zoomDepth) {
 
   return svg;
 };
+
+// var addZoom = function addZoom(svg, zoomDepth) {
+//   if (zoomDepth) {
+//     var svgHeight = svg._groups[0][0].clientHeight;
+//     var svgWidth = svg._groups[0][0].clientWidth;
+
+//     var zoomed = function zoomed() {
+//       svg
+//         .selectAll("._graphZoom")
+//         .attr("transform", _d3Selection.event.transform);
+//       var currentZoom = _d3Selection.event.transform.k;
+//       localStorage.setItem("currentZoom", currentZoom);
+//     };
+
+//     var zoom = (0, _d3Zoom.zoom)()
+//       .extent([
+//         [0, 0],
+//         [svgWidth, svgHeight],
+//       ])
+//       .scaleExtent([1, zoomDepth])
+//       .on("zoom", zoomed);
+
+//     var drag = (0, _d3Drag.drag)()
+//       .on("start", function () {
+//         if (_d3Selection.event.sourceEvent.type !== "brush") {
+//           _d3Selection.event.sourceEvent.stopPropagation();
+//         }
+//       })
+//       .on("drag", function () {
+//         if (_d3Selection.event.sourceEvent.type !== "brush") {
+//           svg.attr("transform", _d3Selection.event.transform);
+//         }
+//       });
+
+//     var zoomIn = function () {
+//       zoom.scaleBy(svg.transition().duration(500), 1.2);
+//       var currentZoom = zoom.scaleExtent()[1];
+//       localStorage.setItem("currentZoom", currentZoom);
+//     };
+
+//     var zoomOut = function () {
+//       zoom.scaleBy(svg.transition().duration(500), 0.8);
+//       var currentZoom = zoom.scaleExtent()[1];
+//       localStorage.setItem("currentZoom", currentZoom);
+//     };
+
+//     // Bind zoom in and zoom out functions to UI buttons
+//     _d3Selection.select("#zoom-in-button").on("click", zoomIn);
+//     _d3Selection.select("#zoom-out-button").on("click", zoomOut);
+
+//     // Retrieve and set the initial zoom level from local storage
+//     var initialZoom = localStorage.getItem("currentZoom");
+//     if (initialZoom) {
+//       zoom.scaleTo(svg, initialZoom);
+//     }
+
+//     svg.call(zoom).call(drag);
+//   }
+
+//   return svg;
+// };
 
 exports.addZoom = addZoom;
 
