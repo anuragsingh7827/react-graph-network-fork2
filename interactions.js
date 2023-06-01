@@ -24,26 +24,35 @@ var addZoom = function addZoom(svg, zoomDepth) {
         .attr("transform", _d3Selection.event.transform);
     };
 
-    var zoom = (0, _d3Zoom.zoom)()
-      .extent([
-        [0, 0],
-        [svgWidth, svgHeight],
-      ])
-      .scaleExtent([1, zoomDepth])
-      .on("zoom", zoomed);
+    svg.call(
+      (0, _d3Zoom.zoom)()
+        .extent([
+          [0, 0],
+          [svgWidth, svgHeight],
+        ])
+        .scaleExtent([1, zoomDepth])
+        .on("zoom", zoomed),
+    );
 
-    var zoomIn = function () {
-      zoom.scaleBy(svg.transition().duration(500), 1.2);
-    };
+    // var zoom = (0, _d3Zoom.zoom)()
+    //   .extent([
+    //     [0, 0],
+    //     [svgWidth, svgHeight],
+    //   ])
+    //   .scaleExtent([1, zoomDepth])
+    //   .on("zoom", zoomed);
 
-    var zoomOut = function () {
-      zoom.scaleBy(svg.transition().duration(500), 0.8);
-    };
+    // var zoomIn = function () {
+    //   zoom.scaleBy(svg.transition().duration(500), 1.2);
+    // };
 
-    // Bind zoom in and zoom out functions to UI buttons
+    // var zoomOut = function () {
+    //   zoom.scaleBy(svg.transition().duration(500), 0.8);
+    // };
+
+    // // Bind zoom in and zoom out functions to UI buttons
     // _d3Selection.select("#zoom-in-button").on("click", zoomIn);
     // _d3Selection.select("#zoom-out-button").on("click", zoomOut);
-
   }
 
   return svg;
