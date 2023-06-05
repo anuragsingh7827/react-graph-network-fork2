@@ -130,6 +130,8 @@ var addDrag = function addDrag(node, simulation, enableDrag, pullIn) {
     localStorage.setItem("graphPosition", JSON.stringify(graphPosition));
   }
 
+  simulation.on("tick", saveGraphPosition);
+
   return node;
 };
 
