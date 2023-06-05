@@ -23,6 +23,7 @@ var addZoom = function addZoom(svg, zoomDepth) {
         .attr("transform", _d3Selection.event.transform);
       var currentZoom = _d3Selection.event.transform.k;
       var currentTranslate = _d3Selection.event.transform;
+      console.log(currentZoom, currentTranslate);
       localStorage.setItem("currentZoom", currentZoom);
       localStorage.setItem("currentTranslate", JSON.stringify(currentTranslate));
     };
@@ -51,6 +52,7 @@ var addZoom = function addZoom(svg, zoomDepth) {
       zoom.scaleBy(svg.transition().duration(500), 1.2);
       var currentZoom = zoom.scaleExtent()[1];
       var currentTranslate = zoom.translateExtent()[0];
+      console.log(currentZoom, currentTranslate);
       localStorage.setItem("currentZoom", currentZoom);
       localStorage.setItem("currentTranslate", JSON.stringify(currentTranslate));
     };
@@ -59,6 +61,7 @@ var addZoom = function addZoom(svg, zoomDepth) {
       zoom.scaleBy(svg.transition().duration(500), 0.8);
       var currentZoom = zoom.scaleExtent()[1];
       var currentTranslate = zoom.translateExtent()[0];
+      console.log(currentZoom, currentTranslate);
       localStorage.setItem("currentZoom", currentZoom);
       localStorage.setItem("currentTranslate", JSON.stringify(currentTranslate));
     };
