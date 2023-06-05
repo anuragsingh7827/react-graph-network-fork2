@@ -50,6 +50,7 @@ var addZoom = function addZoom(svg, zoomDepth) {
     var zoomIn = function () {
       zoom.scaleBy(svg.transition().duration(500), 1.2);
       var currentZoom = zoom.scaleExtent()[1];
+      var currentTranslate = zoom.translateExtent()[0];
       localStorage.setItem("currentZoom", currentZoom);
       localStorage.setItem("currentTranslate", JSON.stringify(currentTranslate));
     };
@@ -57,6 +58,7 @@ var addZoom = function addZoom(svg, zoomDepth) {
     var zoomOut = function () {
       zoom.scaleBy(svg.transition().duration(500), 0.8);
       var currentZoom = zoom.scaleExtent()[1];
+      var currentTranslate = zoom.translateExtent()[0];
       localStorage.setItem("currentZoom", currentZoom);
       localStorage.setItem("currentTranslate", JSON.stringify(currentTranslate));
     };
