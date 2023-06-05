@@ -70,7 +70,7 @@ var addZoom = function addZoom(svg, zoomDepth) {
     // Retrieve the saved zoom level and translate values from local storage
     var initialZoom = localStorage.getItem("currentZoom");
     var initialTranslate = JSON.parse(localStorage.getItem("currentTranslate"));
-
+    console.log(initialZoom, initialTranslate);
     if (initialZoom && initialTranslate) {
       zoom.scaleTo(svg, initialZoom);
       zoom.translateTo(svg, initialTranslate[0], initialTranslate[1]);
