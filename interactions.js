@@ -95,12 +95,14 @@ var addDrag = function addDrag(node, simulation, enableDrag, pullIn) {
       .on("start", function() {
         return (0, _events.dragstarted)(simulation);
       })
-      .on("drag", 0, _events.dragged)
+      .on("drag", function() {
+        (0, _events.dragged)(simulation);
+        saveGraphPosition();
+      })
       .on(
         "end",
         pullIn
           ? function() {
-              saveGraphPosition();
               return (0, _events.dragended)(simulation);
             }
           : null
@@ -122,8 +124,8 @@ var addDrag = function addDrag(node, simulation, enableDrag, pullIn) {
   // Save the graph position in the local storage
   function saveGraphPosition() {
     var graphPosition = {
-      x: simulation.alphaTarget().x,
-      y: simulation.alphaTarget().y
+      x: simulation.nodes()[0].x,
+      y: simulation.nodes()[0].y
     };
     localStorage.setItem("graphPosition", JSON.stringify(graphPosition));
   }
