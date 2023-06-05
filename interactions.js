@@ -33,18 +33,6 @@ var addZoom = function addZoom(svg, zoomDepth) {
       .scaleExtent([1, zoomDepth])
       .on("zoom", zoomed);
 
-    // var drag = (0, _d3Drag.drag)()
-    //   .on("start", function () {
-    //     if (_d3Selection.event.sourceEvent.type !== "brush") {
-    //       _d3Selection.event.sourceEvent.stopPropagation();
-    //     }
-    //   })
-    //   .on("drag", function () {
-    //     if (_d3Selection.event.sourceEvent.type !== "brush") {
-    //       svg.attr("transform", _d3Selection.event.transform);
-    //     }
-    //   });
-
     var zoomIn = function () {
       zoom.scaleBy(svg.transition().duration(500), 1.2);
       var currentZoom = zoom.scaleExtent()[1];
@@ -67,7 +55,6 @@ var addZoom = function addZoom(svg, zoomDepth) {
       zoom.scaleTo(svg, initialZoom);
     }
 
-    // svg.call(zoom).call(drag);
     svg.call(zoom);
   }
 
@@ -101,34 +88,46 @@ exports.addHoverOpacity = addHoverOpacity;
 
 var addDrag = function addDrag(node, simulation, enableDrag, pullIn) {
   if (enableDrag) {
-    node.call(
-      (0, _d3Drag.drag)()
-        .subject(function () {
-          return (0, _events.dragsubject)(simulation);
-        })
-        .on("start", function () {
-          return (0, _events.dragstarted)(simulation);
-        })
-        .on("drag", _events.dragged)
-        .on(
-          "end",
-          pullIn
-            ? function () {
-                return (0, _events.dragended)(simulation);
-              }
-            : null,
-        ),
-    );
+    var drag = (0, _d3Drag.drag)()
+      .subject(function() {
+        return (0, _events.dragsubject)(simulation);
+      })
+      .on("start", function() {
+        return (0, _events.dragstarted)(simulation);
+      })
+      .on("drag", function() {
+        (0, _events.dragged)(simulation);
+        saveGraphPosition();
+      })
+      .on(
+        "end",
+        pullIn
+          ? function() {
+              return (0, _events.dragended)(simulation);
+            }
+          : null
+      );
+
+    node.call(drag);
   } else {
     node.call(
       (0, _d3Drag.drag)()
-        .subject(function () {
+        .subject(function() {
           return (0, _events.dragsubject)(simulation);
         })
         .on("start", null)
         .on("drag", null)
-        .on("end", null),
+        .on("end", null)
     );
+  }
+
+  // Save the graph position in the local storage
+  function saveGraphPosition() {
+    var graphPosition = {
+      x: simulation.alphaTarget().x,
+      y: simulation.alphaTarget().y
+    };
+    localStorage.setItem("graphPosition", JSON.stringify(graphPosition));
   }
 
   return node;
