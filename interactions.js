@@ -67,7 +67,8 @@ var addZoom = function addZoom(svg, zoomDepth) {
       zoom.scaleTo(svg, initialZoom);
     }
 
-    svg.call(zoom).call(drag);
+    // svg.call(zoom).call(drag);
+    svg.call(zoom);
   }
 
   return svg;
