@@ -23,7 +23,7 @@ var addZoom = function addZoom(svg, zoomDepth) {
         .attr("transform", _d3Selection.event.transform);
       var currentZoom = _d3Selection.event.transform.k;
       // var currentTranslate = _d3Selection.event.transform;
-      console.log(currentZoom, currentTranslate);
+      console.log(currentZoom);
       localStorage.setItem("currentZoom", currentZoom);
       // localStorage.setItem("currentTranslate", JSON.stringify(currentTranslate));
     };
