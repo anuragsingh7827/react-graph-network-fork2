@@ -22,10 +22,9 @@ var addZoom = function addZoom(svg, zoomDepth) {
         .selectAll("._graphZoom")
         .attr("transform", _d3Selection.event.transform);
       var currentZoom = _d3Selection.event.transform.k;
-      // var currentTranslate = _d3Selection.event.transform;
-      console.log(currentZoom);
+      var currentTranslate = _d3Selection.event.transform;
       localStorage.setItem("currentZoom", currentZoom);
-      // localStorage.setItem("currentTranslate", JSON.stringify(currentTranslate));
+      localStorage.setItem("currentTranslate", JSON.stringify(currentTranslate));
     };
 
     var zoom = (0, _d3Zoom.zoom)()
@@ -51,8 +50,6 @@ var addZoom = function addZoom(svg, zoomDepth) {
     var zoomIn = function () {
       zoom.scaleBy(svg.transition().duration(500), 1.2);
       var currentZoom = zoom.scaleExtent()[1];
-      var currentTranslate = zoom.translateExtent()[0];
-      console.log(currentZoom, currentTranslate);
       localStorage.setItem("currentZoom", currentZoom);
       localStorage.setItem("currentTranslate", JSON.stringify(currentTranslate));
     };
@@ -60,8 +57,6 @@ var addZoom = function addZoom(svg, zoomDepth) {
     var zoomOut = function () {
       zoom.scaleBy(svg.transition().duration(500), 0.8);
       var currentZoom = zoom.scaleExtent()[1];
-      var currentTranslate = zoom.translateExtent()[0];
-      console.log(currentZoom, currentTranslate);
       localStorage.setItem("currentZoom", currentZoom);
       localStorage.setItem("currentTranslate", JSON.stringify(currentTranslate));
     };
@@ -73,7 +68,7 @@ var addZoom = function addZoom(svg, zoomDepth) {
     // Retrieve the saved zoom level and translate values from local storage
     var initialZoom = localStorage.getItem("currentZoom");
     var initialTranslate = JSON.parse(localStorage.getItem("currentTranslate"));
-    console.log(initialZoom, initialTranslate);
+
     if (initialZoom && initialTranslate) {
       zoom.scaleTo(svg, initialZoom);
       zoom.translateTo(svg, initialTranslate[0], initialTranslate[1]);
